@@ -1,0 +1,40 @@
+#  sh07_main.txt
+#
+#  Discussion:
+#
+#    This is an artificial example used to illustrate a paper.
+#
+#    The task was to locate 3 sources within the cities, so as 
+#    to minimize the total of the distance from each city to its 
+#    nearest source.
+#
+#    Minimizing solution 1:
+#
+#      sources in cities 4, 5, and 7
+#
+#      Total transportation distance 39.9
+#
+#    Minimizing solution 2:
+#
+#      sources in cities 1, 4, and 7
+#
+#      Total transportation distance 39.9
+#
+#  Modified:
+#
+#    11 February 2009
+#
+#  Author:
+#
+#    John Burkardt
+#
+#  Reference:
+#
+#    A M El-Shaieb,
+#    A New Algorithm for Locating Sources Among Destinations,
+#    Management Science,
+#    Volume 20, Number 2, pages 221-231.
+#
+size  7
+geom  plane
+dist  sh07_dist.txt

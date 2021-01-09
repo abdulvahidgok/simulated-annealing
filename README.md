@@ -23,7 +23,7 @@ solver = TSPSolver(
 solver.solve()
 ```
 
-## Example
+## Test
 
 ```console
 $ python test.py

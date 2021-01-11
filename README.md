@@ -3,7 +3,7 @@
 # Simulated Annealing
 
 <div align="center">
-  <img style="max-width: 50%" src="https://github.com/abdulvahidgok/simulated_annealing/blob/master/example2.gif"><br><br>
+  <img style="max-width: 50%" src="https://github.com/abdulvahidgok/simulated_annealing/blob/master/example.gif"><br><br>
 </div>
 
 ## Usage

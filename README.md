@@ -23,7 +23,7 @@ solver = TSPSolver(
 )
 solver.solve()
 ```
-##Cooling Schedule Types
+## Cooling Schedule Types
 
 ```console
 # from cooling schedule types:
@@ -39,7 +39,7 @@ solver = TSPSolver(
 solver.solve()
 ```
 
-##Plot Accepted Routes
+## Plot Accepted Routes
 
 ```console
 from tests.plot import PlotTSPSolver

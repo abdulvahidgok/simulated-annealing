@@ -5,7 +5,7 @@ from data import example_data
 from tests import plot
 
 
-def distance(origin, destination):  # use decimal degrees
+def distance(origin, destination):
     r = 6371  # radius of the earth in km
     lat1 = radians(origin[0])
     lat2 = radians(destination[0])
@@ -19,15 +19,16 @@ def distance(origin, destination):  # use decimal degrees
 def test(data=example_data.LOCATIONS_59, steps=1000, initial_temperature=2000, temperature_min=1,
          cooling_speed=0.999999, random_solutions=True, *args, **kwargs):
     start = time.time()
-    solver = plot.TSPSolver(data=data,
-                            steps=steps,
-                            initial_temperature=initial_temperature,
-                            temperature_min=temperature_min,
-                            cooling_speed=cooling_speed,
-                            random_solutions=random_solutions,
-                            distance_calculator=distance,
-                            *args, **kwargs
-                            )
+    solver = plot.PlotTSPSolver(
+        data=data,
+        steps=steps,
+        initial_temperature=initial_temperature,
+        temperature_min=temperature_min,
+        cooling_speed=cooling_speed,
+        random_solutions=random_solutions,
+        distance_calculator=distance,
+        *args, **kwargs
+    )
 
     solver.solve()
 

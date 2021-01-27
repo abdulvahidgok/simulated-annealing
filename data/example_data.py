@@ -1,4 +1,4 @@
-LOCATIONS_59 = {
+LOCATIONS_58 = {
     "Augsburg": (54.0, -65.0),
     "Bielefeld": (0.0, 71.0),
     "Bochum": (-31.0, 53.0),
@@ -84,7 +84,7 @@ LOCATIONS_22 = {
     "Muenster": (-20.0, 70.0),
 }
 
-LOCATIONS_38 = {
+LOCATIONS_40 = {
     "Youngstown, OH": (-5572.57, 2839.81),
     "Yankton, SD": (-6729.21, 2962.82),
     "Yakima, WA": (-8326.72, 3219.84),

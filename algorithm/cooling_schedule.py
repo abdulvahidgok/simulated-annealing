@@ -1,14 +1,8 @@
 import math
 from collections import OrderedDict
 from enum import Enum
-
-
-class Temperature(float):
-    def __new__(cls, value):
-        return super().__new__(cls, value)
-
-    def __init__(self, value):
-        float.__init__(value)
+from functools import cached_property
+from typing import Union
 
 
 class CoolingScheduleType(Enum):
@@ -23,7 +17,6 @@ class CoolingStatusType(Enum):
 
 
 class CoolingSchedule:
-    cooling_schedule_type = CoolingScheduleType.GEOMETRIC.value  # type: int
     cooling_status = CoolingStatusType.CONTINUE
 
     def __init__(self,
@@ -33,11 +26,11 @@ class CoolingSchedule:
                  temperature_max=0,  # type: float
                  k=0,  # type: float
                  n=1,  # type: float
-                 cooling_schedule_type=cooling_schedule_type,  # type: int
+                 cooling_schedule_type=CoolingScheduleType.GEOMETRIC,  # type: Union[int, None, CoolingScheduleType]
                  ):
         """
         :param temperature: temperature is the current temperature
-        :param cooling_speed: cooling_speed is the cooling speed parameter
+        :param cooling_speed: cooling_speed is the cooling speed parameter.
         :param k: k is the iteration
         :param n: N is the dimensionality of the model space
         """
@@ -52,18 +45,18 @@ class CoolingSchedule:
         self.temperature_max = temperature_max if temperature_max else temperature
         self.temperature_min = temperature_min
         self.cooling_speed = cooling_speed
-        self.cooling_schedule_type = cooling_schedule_type
-
-        self.temperature = temperature
-        self.cooling_speed = cooling_speed
         self.k = k
         self.n = n
         self.cooling_schedule_type = cooling_schedule_type
         super(CoolingSchedule, self).__init__()
 
+    @cached_property
+    def initial_temperature(self):
+        return self.temperature
+
     def cool(self) -> bool:
         self.k += 1
-        new_temperature = self.CoolingScheduleChoices[self.cooling_schedule_type]()
+        new_temperature = self.CoolingScheduleChoices[self.cooling_schedule_type.value]()
         if new_temperature >= self.temperature_min:
             self.temperature = new_temperature
             self.cooling_status = CoolingStatusType.CONTINUE
@@ -73,13 +66,17 @@ class CoolingSchedule:
             return False
 
     def logarithmic(self):
-        temperature = self.cooling_speed * self.temperature / math.exp(1 + self.k)
+        temperature = (self.cooling_speed * self.initial_temperature) / \
+                      math.log1p(self.k)  # logarithm of 1+self.k (base e)
         return temperature
 
     def geometric(self):
-        temperature = (self.cooling_speed ** self.k) * self.temperature
+        """
+        The system cools slowly as cooling_speed approaches 1. cooling_speed must be in range 0 to 1.
+        """
+        temperature = (self.cooling_speed ** self.k) * self.initial_temperature
         return temperature
 
     def exponential(self):
-        temperature = self.temperature * math.exp(-self.cooling_speed * (self.k ** (1 / self.n)))
+        temperature = self.initial_temperature * math.exp(-self.cooling_speed * (self.k ** (1 / self.n)))
         return temperature

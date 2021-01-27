@@ -12,7 +12,7 @@ def get_data(txt_file="wg22_xy.txt"):
 
     base_dir = pathlib.Path(__file__).parent.parent.absolute()
     data = {}
-    city_key = 0
+    location_key = 0
     with open(base_dir.joinpath("data").joinpath(txt_file), 'r') as xy_file:
         reader = csv.reader(xy_file, delimiter=' ')
         for row in reader:
@@ -22,7 +22,7 @@ def get_data(txt_file="wg22_xy.txt"):
             if len(coord) != 2:
                 continue
             data.update(
-                {city_key: coord}
+                {location_key: coord}
             )
-            city_key += 1
+            location_key += 1
     return data

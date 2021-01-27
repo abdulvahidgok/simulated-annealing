@@ -91,7 +91,7 @@ class SolutionGenerator:
     ) -> Solution:
         """
         :param data: data
-        :return solution: we could choice solution randomly. solution can be initial solution or new solution
+        :return solution: we could choose a initial solution randomly.
         """
         pass
 
@@ -103,7 +103,7 @@ class SolutionGenerator:
     ) -> Solution:
         """
         :param data: data
-        :return solution: we could choice solution randomly. solution can be initial solution or new solution
+        :return solution: we could choose a solution randomly. solution can be initial solution or new solution
         """
         pass
 
@@ -160,7 +160,6 @@ class SMA(Solver, ABC, ObjectiveFunction, SolutionGenerator, CoolingSchedule):
             self,
             data,
             initial_temperature,  # type: float
-            temperature_max,  # type: float
             temperature_min,  # type: float
             cooling_speed,  # type: float
             cooling_schedule_type=CoolingScheduleType.GEOMETRIC.value,  # type: int
@@ -172,7 +171,6 @@ class SMA(Solver, ABC, ObjectiveFunction, SolutionGenerator, CoolingSchedule):
     ):
         super(SMA, self).__init__(
             temperature=initial_temperature,
-            temperature_max=temperature_max,
             temperature_min=temperature_min,
             cooling_speed=cooling_speed,
             cooling_schedule_type=cooling_schedule_type,
@@ -188,6 +186,10 @@ class SMA(Solver, ABC, ObjectiveFunction, SolutionGenerator, CoolingSchedule):
         initial_solution.calculate_energy(solver=self)
         initial_solution.accept()
         initial_state.add_solution(solution=initial_solution)
+
+    @abstractmethod
+    def stopping_criteria(self) -> bool:
+        return self.temperature < self.temperature_min
 
     def add_state(self,
                   state,  # type: State
@@ -210,7 +212,7 @@ class SMA(Solver, ABC, ObjectiveFunction, SolutionGenerator, CoolingSchedule):
         return new_state
 
     @functools.cached_property
-    def initial_state(self):
+    def initial_state(self) -> State:
         return self.state_list[-1]
 
     @property
@@ -289,7 +291,7 @@ class SMA(Solver, ABC, ObjectiveFunction, SolutionGenerator, CoolingSchedule):
         self.create_and_add_new_state()
 
     def solve(self):
-        while self.temperature >= self.temperature_min:
+        while not self.stopping_criteria():
             self.reduce_system_temperature()
             if self.cooling_status == CoolingStatusType.STOPPED:
                 break

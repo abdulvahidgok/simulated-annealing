@@ -23,17 +23,21 @@ class TSPSolver(SMA):
         self.distance_calculator = distance_calculator
         self.total_generated_solution = 0  # type: int
         super(TSPSolver, self).__init__(data, cooling_schedule_type=cooling_schedule_type, *args, **kwargs)
-        self.count_steps()
+        if not self.steps:
+            self.count_steps()
         self.neighbour_solution_generator = self.generate_random_neighbour_solution() if random_solutions \
             else self.generate_neighbour_solution()
         self.previous_swap = (0, 0)  # type: typing.Tuple[int, int]
 
+    def stopping_criteria(self) -> bool:
+        return self.temperature < self.temperature_min
+
     @cached_property
     def distance_matrix(self) -> typing.Dict[str, typing.Dict[str, float]]:
         return self.distance_matrix_result if self.distance_matrix_result else {
-            city[0]: {city_inner[0]: self.distance_calculator(city[1], city_inner[1]) for city_inner in
-                      self.data.items()}
-            for city in self.data.items()}
+            location[0]: {location_inner[0]: self.distance_calculator(location[1], location_inner[1]) for location_inner
+                          in self.data.items()}
+            for location in self.data.items()}
 
     @cached_property
     def number_of_point(self) -> int:
@@ -45,7 +49,7 @@ class TSPSolver(SMA):
         """
         number_of_combinations = math.factorial(self.number_of_point) // math.factorial(2) // math.factorial(
             self.number_of_point - 2)
-        self.steps = number_of_combinations * 2 if not self.steps else self.steps
+        self.steps = number_of_combinations * 2
 
     @staticmethod
     def swap_index(
@@ -94,9 +98,9 @@ class TSPSolver(SMA):
     def iterate_coords(self, plan):
         a, total_distance = 0, 0
         while self.number_of_point > a:
-            city_0 = plan[a - 1]
-            city_1 = plan[a]
-            distance = self.distance_matrix[city_0][city_1]
+            location_0 = plan[a - 1]
+            location_1 = plan[a]
+            distance = self.distance_matrix[location_0][location_1]
             total_distance += distance
             yield total_distance
             a = a + 1
@@ -111,10 +115,10 @@ class TSPSolver(SMA):
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             sum_distance = executor.submit(lambda: sum(
                 self.distance_matrix[p1][p2] for p1, p2 in zip(solution.plan, solution.plan[1:])))
-            max_city_distance = executor.submit(
+            max_location_distance = executor.submit(
                 lambda: max(zip(solution.plan, solution.plan[1:]),
                             key=lambda x: self.distance_matrix[x[0]][x[1]]))
-        self.max_city_distance = max_city_distance.result()
+        self.max_location_distance = max_location_distance.result()
         return sum_distance.result()
         """
         *_, total_distance = self.iterate_coords(plan=solution.plan)

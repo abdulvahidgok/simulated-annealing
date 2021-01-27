@@ -1,9 +1,9 @@
 
 
 # Simulated Annealing
-
 <div align="center">
-  <img style="max-width: 50%" src="https://github.com/abdulvahidgok/simulated_annealing/blob/master/example.gif"><br><br>
+  <img style="max-width: 50%" src="https://raw.githubusercontent.com/abdulvahidgok/simulated_annealing/master/example.gif"
+><br><br>
 </div>
 
 ## Usage
@@ -32,9 +32,10 @@ from solvers import TSPSolver
 from algorithm.cooling_schedule import CoolingScheduleType
 solver = TSPSolver(
     data=data,
-    temperature_min=5,
-    cooling_speed=0.9999,
-    cooling_schedule_type=CoolingScheduleType.EXPONENTIAL.value  # or directly 1, 2, 3 can assigned.
+    initial_temperature=7000,
+    temperature_min=65,
+    cooling_speed=0.0001,
+    cooling_schedule_type=CoolingScheduleType.EXPONENTIAL
 )
 solver.solve()
 ```
@@ -43,11 +44,15 @@ solver.solve()
 
 ```console
 from tests.plot import PlotTSPSolver
-solver = PlotTSPSolver(
+PlotTSPSolver(
     data=data,
-    temperature_min=5,
-    cooling_speed=0.9999,
-    plot_coords=True  # default
+    initial_temperature=7000,
+    temperature_min=65,
+    cooling_speed=0.001,
+    random_solutions=False,
+    plot_coords=True,  # for live simulated annealing process
+    save_last_frame=True,  # will save last state /tests/frames folder
+    cooling_schedule_type=CoolingScheduleType.EXPONENTIAL
 )
 solver.solve()
 ```

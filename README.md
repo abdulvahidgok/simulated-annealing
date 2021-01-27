@@ -26,8 +26,6 @@ solver.solve()
 ## Cooling Schedule Types
 
 ```console
-# from cooling schedule types:
-# 1 is Logarithmic, 2 is Geometric, 3 is Exponential
 from solvers import TSPSolver
 from algorithm.cooling_schedule import CoolingScheduleType
 solver = TSPSolver(

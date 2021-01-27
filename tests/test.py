@@ -88,23 +88,21 @@ def main():
         {
             "data": example_data.LOCATIONS_50,
             "cooling_schedule_types": [
-                # {
-                #     "cooling_schedule_type": cooling_schedule.CoolingScheduleType.GEOMETRIC,
-                #     "initial_temperature_list": [500, 1000, 2000, 3000, 4000],
-                #     "cooling_speed_list": [0.85, 0.9, 0.95, 0.99]
-                # },
+                {
+                    "cooling_schedule_type": cooling_schedule.CoolingScheduleType.GEOMETRIC,
+                    "initial_temperature_list": [500, 1000, 2000, 3000, 4000],
+                    "cooling_speed_list": [0.85, 0.9, 0.95, 0.99]
+                },
                 {
                     "cooling_schedule_type": cooling_schedule.CoolingScheduleType.EXPONENTIAL,
-                    # "initial_temperature_list": [500, 1000, 2000, 3000, 4000],
-                    # "cooling_speed_list": [0.001, 0.002, 0.003, 0.004]
                     "initial_temperature_list": [7000],
                     "cooling_speed_list": [0.0001]
                 },
-                # {
-                #     "cooling_schedule_type": cooling_schedule.CoolingScheduleType.LOGARITHMIC,
-                #     "initial_temperature_list": [500, 1000, 2000, 3000, 4000],
-                #     "cooling_speed_list": [0.85, 0.9, 0.95, 0.99]
-                # },
+                {
+                    "cooling_schedule_type": cooling_schedule.CoolingScheduleType.LOGARITHMIC,
+                    "initial_temperature_list": [500, 1000, 2000, 3000, 4000],
+                    "cooling_speed_list": [0.85, 0.9, 0.95, 0.99]
+                },
             ]
         },
     ]
@@ -122,13 +120,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-test(
-    data=schedule.get("data"),
-    initial_temperature=initial_temperature,
-    temperature_min=65,
-    cooling_speed=cooling_speed,
-    random_solutions=False,
-    plot_coords=False,
-    save_last_frame=True,
-    cooling_schedule_type=cooling_schedule_type.get("cooling_schedule_type")
-)

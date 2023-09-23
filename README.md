@@ -2,7 +2,7 @@
 
 # Simulated Annealing
 <div align="center">
-  <img style="max-width: 50%" src="https://raw.githubusercontent.com/abdulvahidgok/simulated_annealing/master/example.gif"
+  <img style="max-width: 50%" src="https://github.com/abdulvahidgok/simulated-annealing/blob/master/tests/example.gif?raw=true"
 ><br><br>
 </div>
 
